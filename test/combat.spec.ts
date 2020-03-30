@@ -141,7 +141,7 @@ describe('Combat', () => {
     expect(combat.defender).toBe(attacker);
   });
 
-  it('should start a combat and return the winner', async () => {
+  it('should start a combat and return the winner (1)', async () => {
     const combat = new Combat(
       givenPokemon({
         defense: 100,
@@ -167,7 +167,7 @@ describe('Combat', () => {
         speed: 51,
         type: PokemonType.FIRE,
         level: 50,
-        name: 'PokemonA',
+        name: 'PokemonB',
         attacks: [
           {
             nature: AttackNature.PHYSICAL,
@@ -181,6 +181,48 @@ describe('Combat', () => {
 
     const winner = await combat.start(10, () => combat.attacker.attacks[0]);
     expect(winner).toBe(combat.secondPokemon);
+  });
+
+  it('should start a combat and return the winner (2)', async () => {
+    const combat = new Combat(
+      givenPokemon({
+        defense: 100,
+        attack: 100,
+        hp: 100,
+        speed: 51,
+        type: PokemonType.FIRE,
+        level: 50,
+        name: 'PokemonA',
+        attacks: [
+          {
+            nature: AttackNature.PHYSICAL,
+            name: 'AttackA',
+            basePower: 50,
+            precision: 10,
+          },
+        ],
+      }),
+      givenPokemon({
+        defense: 100,
+        attack: 100,
+        hp: 100,
+        speed: 50,
+        type: PokemonType.FIRE,
+        level: 50,
+        name: 'PokemonB',
+        attacks: [
+          {
+            nature: AttackNature.PHYSICAL,
+            name: 'AttackA',
+            basePower: 50,
+            precision: 10,
+          },
+        ],
+      }),
+    );
+
+    const winner = await combat.start(10, () => combat.attacker.attacks[0]);
+    expect(winner).toBe(combat.firstPokemon);
   });
 
   it('should handle error happening in a combat', () => {
