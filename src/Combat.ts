@@ -8,8 +8,8 @@ export class Combat {
   public defender: Pokemon;
 
   constructor(
-    private readonly firstPokemon: Pokemon,
-    private readonly secondPokemon: Pokemon,
+    public readonly firstPokemon: Pokemon,
+    public readonly secondPokemon: Pokemon,
     randomFn?: RandomFn,
   ) {
     this.attacker = this.getFirstAttacker(randomFn);
@@ -64,11 +64,31 @@ export class Combat {
 
     const damageDealt = this.getAttackDamage(attack, crititalRandomFn);
     this.defender.removeHp(damageDealt);
-
-    if (this.defender.isDead()) {
-      // TODO
-    }
-
     this.switchPokemons();
+  }
+
+  start(roundInMs = 500, getAttack?: () => Attack): Promise<Pokemon> {
+    return new Promise((resolve, reject) => {
+      const itv = setInterval(() => {
+        if (this.firstPokemon.isDead()) {
+          clearInterval(itv);
+          return resolve(this.secondPokemon);
+        }
+
+        if (this.secondPokemon.isDead()) {
+          clearInterval(itv);
+          return resolve(this.firstPokemon);
+        }
+
+        getAttack = getAttack ?? this.attacker.getRandomAttack;
+
+        try {
+          this.attack(getAttack());
+        } catch (err) {
+          clearInterval(itv);
+          reject(err);
+        }
+      }, roundInMs);
+    });
   }
 }

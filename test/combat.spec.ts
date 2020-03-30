@@ -1,6 +1,7 @@
 import { Combat } from '../src/Combat';
 import { givenPokemon } from './utils';
 import { Attack, AttackNature } from '../src/Attack';
+import { PokemonType } from '../src/Pokemon';
 
 describe('Combat', () => {
   it('should determine the attackers which has the most speed (1)', () => {
@@ -138,5 +139,55 @@ describe('Combat', () => {
     combat.attack(combat.attacker.attacks[0]);
     expect(combat.attacker).toBe(defender);
     expect(combat.defender).toBe(attacker);
+  });
+
+  it('should start a combat and return the winner', async () => {
+    const combat = new Combat(
+      givenPokemon({
+        defense: 100,
+        attack: 100,
+        hp: 100,
+        speed: 50,
+        type: PokemonType.FIRE,
+        level: 50,
+        name: 'PokemonA',
+        attacks: [
+          {
+            nature: AttackNature.PHYSICAL,
+            name: 'AttackA',
+            basePower: 50,
+            precision: 10,
+          },
+        ],
+      }),
+      givenPokemon({
+        defense: 100,
+        attack: 100,
+        hp: 100,
+        speed: 51,
+        type: PokemonType.FIRE,
+        level: 50,
+        name: 'PokemonA',
+        attacks: [
+          {
+            nature: AttackNature.PHYSICAL,
+            name: 'AttackA',
+            basePower: 50,
+            precision: 10,
+          },
+        ],
+      }),
+    );
+
+    const winner = await combat.start(10, () => combat.attacker.attacks[0]);
+    expect(winner).toBe(combat.secondPokemon);
+  });
+
+  it('should handle error happening in a combat', () => {
+    const combat = new Combat(givenPokemon(), givenPokemon());
+
+    return expect(
+      combat.start(10, () => (undefined as unknown) as Attack),
+    ).rejects.toHaveProperty('message', 'Invalid attack');
   });
 });

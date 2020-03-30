@@ -17,7 +17,11 @@ export class Pokemon {
     public readonly defense: number,
     public readonly speed: number,
     public readonly attacks: Attack[],
-  ) {}
+  ) {
+    if (this.attacks.length === 0) {
+      throw new Error('No attacks defined');
+    }
+  }
 
   public removeHp(damage: number): void {
     this.hp = Math.max(0, this.hp - damage);
@@ -25,5 +29,9 @@ export class Pokemon {
 
   public isDead(): boolean {
     return this.hp <= 0;
+  }
+
+  public getRandomAttack(): Attack {
+    return this.attacks[Math.floor(Math.random() * this.attacks.length)];
   }
 }
