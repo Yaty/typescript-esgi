@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf dist && tsc"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Yaty/typescript-esgi/issues"
   },
-  "homepage": "https://github.com/Yaty/typescript-esgi#readme"
+  "homepage": "https://github.com/Yaty/typescript-esgi#readme",
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
+  }
 }
