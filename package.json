@@ -1,0 +1,19 @@
+{
+  "name": "typescript-esgi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yaty/typescript-esgi.git"
+  },
+  "author": "Hugo Da Roit <contact@hdaroit.fr> (https://github.com/Yaty)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yaty/typescript-esgi/issues"
+  },
+  "homepage": "https://github.com/Yaty/typescript-esgi#readme"
+}
